@@ -18,10 +18,18 @@ letters_to_guess = "".join(list(set(word_to_guess)))
 wrong_letters = []
 
 while(wrong_guesses < chances):
-    user_guess = input("\nEnter a letter to guess: ").lower()
+    try:
+        user_guess = input("\nEnter a letter to guess: ").lower()
 
-    if user_guess in right_guesses or user_guess in wrong_letters:
-        print('You already guessed that letter. Try another one!')
+        if not user_guess.isalpha() or len(user_guess) != 1:
+            raise ValueError("Please enter a single valid letter.")
+
+        if user_guess in right_guesses or user_guess in wrong_letters:
+            print('You already guessed that letter. Try another one!')
+            continue
+
+    except ValueError as err:
+        print(err)
         continue
 
     if user_guess in word_to_guess:
