@@ -15,10 +15,14 @@ chances = len(word_to_guess) + 2
 wrong_guesses = 0
 right_guesses = ''
 letters_to_guess = "".join(list(set(word_to_guess)))
+wrong_letters = []
 
 while(wrong_guesses < chances):
-    user_guess = input("Enter a letter to guess: ")
+    user_guess = input("\nEnter a letter to guess: ").lower()
 
+    if user_guess in right_guesses or user_guess in wrong_letters:
+        print('You already guessed that letter. Try another one!')
+        continue
 
     if user_guess in word_to_guess:
         right_guesses += user_guess
@@ -30,6 +34,22 @@ while(wrong_guesses < chances):
                 print('_', end=" ")
         print()
     
-    if(len(right_guesses) == len(letters_to_guess)):
-        print('Congrats!!')
-        break
+        if(len(right_guesses) == len(letters_to_guess)):
+            print('Congratulations, You won!!!')
+            break
+    else:
+        wrong_guesses += 1
+        wrong_letters.append(user_guess)
+
+        for letter in word_to_guess:
+            if letter in right_guesses:
+                print(letter, end=" ")
+            else:
+                print('_', end=" ")
+        print()
+        
+        print('\n--------------------------------------------------------------------')
+        print(f"Wrong guess! You have {chances - wrong_guesses} chances left.")
+        print(f"Wrong guesses so far: {', '.join(wrong_letters)}")
+        print('--------------------------------------------------------------------\n')
+
